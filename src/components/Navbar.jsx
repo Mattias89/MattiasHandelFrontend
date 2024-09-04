@@ -1,33 +1,36 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import "../styles/style.css";
-import SearchBar from "./SearchBar";
 
-function Navbar() {
+function Navbar({ onSearch }) {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    onSearch(searchTerm); // Pass the search term to the parent component
+  };
+
   return (
     <nav>
       <div className="navbar-logo">
         <Link to="/">
-          <img src="/images/logo.jpg" alt="Freaky Fashion Logo" />
+          <img src="/images/logo.jpg" alt="OnlineShop Logo"/>
         </Link>
       </div>
-      <SearchBar />
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link>Byxor</Link>
-        </li>
-        <li>
-          <Link>T-Shirts</Link>
-        </li>
-        <li>
-          <Link>Mitt Konto</Link>
-        </li>
-        <li>
-          <Link>Kundtjänst</Link>
-        </li>
+      <form onSubmit={handleSearch} className="search-form">
+        <input
+          type="text"
+          placeholder="Search products"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+        <button type="submit" className="search-button">Search</button>
+      </form>
+      <ul className="nav-links">
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/byxor">Byxor</Link></li>
+        {/* Add more links as needed */}
       </ul>
     </nav>
   );
